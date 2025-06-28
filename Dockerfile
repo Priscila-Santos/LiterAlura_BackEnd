@@ -1,14 +1,18 @@
-# Dockerfile para aplicação Spring Boot (Java 21)
-FROM eclipse-temurin:21-jdk-alpine
+# Etapa 1: builder com Maven
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Diretório de trabalho
+# Etapa 2: runtime com JDK leve
+FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 
-# Copia o build final para dentro do container
-COPY target/literalura-0.0.1-SNAPSHOT.jar app.jar
+# Copia o jar gerado no builder
+COPY --from=builder /app/target/literalura-0.0.1-SNAPSHOT.jar app.jar
 
-# Expõe a porta definida no application.properties
+# Porta usada pela aplicação
 EXPOSE 8282
 
-# Comando para rodar a aplicação
+# Comando de inicialização
 ENTRYPOINT ["java", "-jar", "app.jar"]
