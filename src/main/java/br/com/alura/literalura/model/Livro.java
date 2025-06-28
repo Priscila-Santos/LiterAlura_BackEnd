@@ -1,7 +1,10 @@
 package br.com.alura.literalura.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -15,12 +18,20 @@ public class Livro {
     private String idioma;
     private Integer downloads;
 
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "livro_autor",
             joinColumns = @JoinColumn(name = "livro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id"))
     private Set<Autor> autores = new HashSet<>();
+
+    @Column(length = 4000)
+    private String resumo;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "livro_formats", joinColumns = @JoinColumn(name = "livro_id"))
+    @MapKeyColumn(name = "formato")
+    @Column(name = "url")
+    private Map<String, String> formats = new HashMap<>();
 
     public Long getId() {
         return id;
@@ -60,5 +71,21 @@ public class Livro {
 
     public void setAutores(Set<Autor> autores) {
         this.autores = autores;
+    }
+
+    public String getResumo() {
+        return resumo;
+    }
+
+    public void setResumo(String resumo) {
+        this.resumo = resumo;
+    }
+
+    public Map<String, String> getFormats() {
+        return formats;
+    }
+
+    public void setFormats(Map<String, String> formats) {
+        this.formats = formats;
     }
 }

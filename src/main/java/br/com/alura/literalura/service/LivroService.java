@@ -6,10 +6,12 @@ import br.com.alura.literalura.model.Autor;
 import br.com.alura.literalura.model.Livro;
 import br.com.alura.literalura.repository.AutorRepository;
 import br.com.alura.literalura.repository.LivroRepository;
+import br.com.alura.literalura.util.ResumoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -32,6 +34,15 @@ public class LivroService {
         livro.setIdioma(dto.languages().isEmpty() ? "desconhecido" : dto.languages().get(0));
         livro.setDownloads(dto.download_count());
 
+        // Buscar e setar o resumo
+        String txtUrl = buscarUrlTexto(dto.formats());
+        if (txtUrl != null) {
+            String resumo = ResumoUtil.extrairResumo(txtUrl);
+            livro.setResumo(resumo);
+        } else {
+            livro.setResumo("Resumo não disponível.");
+        }
+
         Set<Autor> autores = new HashSet<>();
         for (AutorDTO autorDTO : dto.authors()) {
             Autor autor = autorRepository.findByNome(autorDTO.name())
@@ -48,4 +59,17 @@ public class LivroService {
         livro.setAutores(autores);
         return livroRepository.save(livro);
     }
+
+    private String buscarUrlTexto(Map<String, String> formats) {
+        if (formats.containsKey("text/plain; charset=utf-8"))
+            return formats.get("text/plain; charset=utf-8");
+
+        for (String key : formats.keySet()) {
+            if (key.startsWith("text/plain"))
+                return formats.get(key);
+        }
+
+        return null;
+    }
+
 }
