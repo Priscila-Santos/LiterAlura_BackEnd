@@ -9,10 +9,10 @@ services:
     autoDeploy: true
     envVars:
       - key: DB_HOST
-        value: <hostname do seu banco>
+        value: dpg-d1g3e8ffte5s7386pvo0-a
       - key: DB_PORT
-        value: 5434
+        value: 5432
       - key: DB_USER
-        value: <usuário>
+        value: literalura_db_b58q_user
       - key: DB_PASSWORD
-        value: <senha>
+        value: PcgzckGj4Yr8GlaLkFa2QPXY7zJOWlZh
