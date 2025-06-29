@@ -1,11 +1,14 @@
 # LiterAlura
 
+
+
 #### [LiterAlura](https://liter-alura.vercel.app/) é uma aplicação full-stack desenvolvida para buscar, favoritar e explorar livros clássicos da literatura mundial usando a API do [Project Gutenberg (Gutendex)](https://gutendex.com/).
 
 ### O projeto é dividido em duas partes:
 
 * **Frontend**: Desenvolvido com React + TypeScript + TailwindCSS
 * **Backend**: Desenvolvido com Java + Spring Boot + PostgreSQL
+- *explicação completa e didática da aplicação no [Notion](https://full-orangutan-0a9.notion.site/Desafio-LiterAlura-220efaf93dc680cabd07e84958e19b0f)*
 
 ---
 
@@ -28,6 +31,9 @@
 * Remoção de favoritos
 
 ---
+
+## Interface do Site LiterAlura
+![Interface do Site LiterAlura](gif/LiterAlura-view.gif)
 
 ## ⚙️ Tecnologias Utilizadas
 
